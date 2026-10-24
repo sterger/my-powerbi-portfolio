@@ -1,0 +1,9 @@
+# Power BI User Settings & Cache
+*.user.json
+*.pbip.user
+.pbi/
+*.bak
+
+# OS specific temporary files
+.DS_Store
+Thumbs.db

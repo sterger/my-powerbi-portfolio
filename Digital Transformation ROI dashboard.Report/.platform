@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Digital Transformation ROI dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "94e90651-7765-40c8-8c73-a55da2628d88"
+  }
+}
