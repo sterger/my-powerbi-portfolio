@@ -1,0 +1,72 @@
+table Dim_Backlog
+	lineageTag: 1648b8b5-0895-4ef2-92e6-c1e5db114d66
+
+	column Agent_Candidate
+		dataType: string
+		lineageTag: 70fb57b8-4e68-4377-bb03-e1a5bf6dd573
+		summarizeBy: none
+		sourceColumn: Agent_Candidate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value_Score
+		dataType: double
+		lineageTag: 3c7773cf-1cd7-4368-9380-cf071d988312
+		summarizeBy: sum
+		sourceColumn: Value_Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Feasibility_Score
+		dataType: double
+		lineageTag: f4841bb6-f7bf-4bf6-8ba4-1a0544f225b4
+		summarizeBy: sum
+		sourceColumn: Feasibility_Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Time_to_Impact_Months
+		dataType: int64
+		formatString: 0
+		lineageTag: a0a42ccb-0bdb-40b3-a8b8-aa78af9714d8
+		summarizeBy: sum
+		sourceColumn: Time_to_Impact_Months
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority_Rank
+		dataType: int64
+		formatString: 0
+		lineageTag: c542b598-ec2d-4b8a-a13b-57b5a37fb9b6
+		summarizeBy: sum
+		sourceColumn: Priority_Rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column Decision
+		dataType: string
+		lineageTag: 83eb20af-da76-4f5b-bb9f-ee387722269c
+		summarizeBy: none
+		sourceColumn: Decision
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Backlog = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Dim_Backlog_Sheet = Source{[Item="Dim_Backlog",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Backlog_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Agent_Candidate", type text}, {"Value_Score", type number}, {"Feasibility_Score", type number}, {"Time_to_Impact_Months", Int64.Type}, {"Priority_Rank", Int64.Type}, {"Decision", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

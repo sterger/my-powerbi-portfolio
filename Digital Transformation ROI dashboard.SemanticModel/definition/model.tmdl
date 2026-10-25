@@ -9,7 +9,22 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","TMDLView_Desktop"]
+
+annotation PBI_QueryOrder = ["Dim_Backlog","Dim_Scenario_Summary","Fact_Adoption_Weekly","Fact_CostOfInaction","Fact_CashFlow","Dim_KPI_Scorecard","Fact_Realised_Monthly","Fact_Sensitivity","Ref_Baselines","ExcelSource","Date","Measure","Fact_KPI_Scorecard"]
+
+ref table Dim_Backlog
+ref table Dim_Scenario_Summary
+ref table Fact_Adoption_Weekly
+ref table Fact_CostOfInaction
+ref table Fact_CashFlow
+ref table Dim_KPI_Scorecard
+ref table Fact_Realised_Monthly
+ref table Fact_Sensitivity
+ref table Ref_Baselines
+ref table Date
+ref table Measure
+ref table Fact_KPI_Scorecard
 
 ref cultureInfo en-SG
 

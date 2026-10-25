@@ -9,6 +9,15 @@
         "page": "2.3.1"
       },
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "ReportThemeDark5113538600633282.json",
+      "reportVersionAtImport": {
+        "visual": "2.14.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
     }
   },
   "objects": {
@@ -24,8 +33,24 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
     ]
   },
+  "publicCustomVisuals": [
+    "htmlContent443BE3AD55E043BF878BED274D3A6855"
+  ],
   "resourcePackages": [
     {
       "name": "SharedResources",
@@ -35,6 +60,33 @@
           "name": "Fluent2-CY26SU10",
           "path": "BaseThemes/Fluent2-CY26SU10.json",
           "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "formulaCard5DEC4A2949D24C2F88C37B632195AC4E_OrgStore",
+      "type": "OrganizationalStoreCustomVisual",
+      "items": [
+        {
+          "name": "resources/formulaCard5DEC4A2949D24C2F88C37B632195AC4E_OrgStore.pbiviz.json",
+          "path": "1/2ca81594-9a71-42a0-a487-0fc9de27d834/ResourcePackage/BlobIdV2-a9818b81-96e1-4410-8a0a-cb114ead3efb-aviSEsBL2KrPtp.xsmydZCluxwxbfG.j.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "matrix_background5620757381236821.png",
+          "path": "matrix_background5620757381236821.png",
+          "type": "Image"
+        },
+        {
+          "name": "ReportThemeDark5113538600633282.json",
+          "path": "ReportThemeDark5113538600633282.json",
+          "type": "CustomTheme"
         }
       ]
     }

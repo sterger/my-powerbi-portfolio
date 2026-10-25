@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "4d3baa978b0550c62d5a",
+  "position": {
+    "x": 1231.6666564941406,
+    "y": 100,
+    "z": 6000,
+    "height": 116,
+    "width": 275,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Run Rate (Latest)"
+                }
+              },
+              "queryRef": "Measure.Run Rate (Latest)",
+              "nativeQueryRef": "Run Rate (Latest)"
+            }
+          ]
+        },
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "\nvar Results = [Run Rate (Latest)] & \" mil\"\nreturn\n FlipCard(Results,,\"Run rate\", \"Annualised current performance: Latest period’s result X 12 Months.\")",
+                  "Name": "Calculation"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Calculation",
+              "format": "0.0%;-0.0%;0.0%"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "NativeVisualCalculation": {
+                "Language": "dax",
+                "Expression": "\n\n FlipCard([Breakeven Mo],,\"Breakeven Months\", \"No of Months to breakeven on investment\")",
+                "Name": "Calculation"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "compatibility": [
+        {
+          "properties": {
+            "legacyRendering": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

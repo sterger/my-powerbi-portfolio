@@ -1,0 +1,70 @@
+table Dim_KPI_Scorecard
+	lineageTag: db3b55bb-e68e-488c-9ff6-e3072b05b317
+
+	column Domain
+		dataType: string
+		lineageTag: b4195610-790a-4888-8366-50f8bcf6dd17
+		summarizeBy: none
+		sourceColumn: Domain
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		dataType: string
+		lineageTag: d42906d6-b7fe-4afe-8ba1-4f20a8deed65
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: string
+		lineageTag: f649f053-b009-4054-9094-dd4877ea67d3
+		summarizeBy: none
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Baseline
+		dataType: double
+		lineageTag: 1c3cafc0-41a9-4521-beef-42361ddd295d
+		summarizeBy: none
+		sourceColumn: Baseline
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Target
+		dataType: double
+		lineageTag: 0ec2b033-a09c-45be-a3ba-25f5a9844e9a
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KPI_Tier
+		dataType: string
+		lineageTag: 2cb9d2bf-f02d-41b7-ad2d-dc3a35d7d8c8
+		summarizeBy: none
+		sourceColumn: KPI_Tier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_KPI_Scorecard = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_KPI_Scorecard_Sheet = Source{[Item="Dim_KPI_Scorecard",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_KPI_Scorecard_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Domain", type text}, {"KPI", type text}, {"Unit", type text}, {"Baseline", type number}, {"Target", type number},  {"KPI_Tier", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

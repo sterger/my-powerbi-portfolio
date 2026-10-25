@@ -1,0 +1,122 @@
+table Dim_Scenario_Summary
+	lineageTag: ee76eef2-59a1-4180-a3d5-9a56ce68e0aa
+
+	column Scenario
+		dataType: string
+		lineageTag: f9655a48-7619-48a1-b914-f04995cd6a3d
+		summarizeBy: none
+		sourceColumn: Scenario
+		sortByColumn: Scenario_Order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Assumptions
+		dataType: string
+		lineageTag: 986104c9-0df2-435e-9727-f2b7423247a2
+		summarizeBy: none
+		sourceColumn: Assumptions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Discount_Rate_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: bfe7726d-ea35-48b5-bd72-629e9cfbf39e
+		summarizeBy: sum
+		sourceColumn: Discount_Rate_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Net_NPV_SGDm
+		dataType: double
+		lineageTag: 9896129f-5d55-4226-886f-bdba3adb0485
+		summarizeBy: sum
+		sourceColumn: Net_NPV_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROI_3Y_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 902b9a3b-80ff-4d69-a0ca-ed08d4d6806e
+		summarizeBy: sum
+		sourceColumn: ROI_3Y_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Breakeven_Months
+		dataType: double
+		lineageTag: 0e9c0878-8a40-42b5-8a59-6e20b2860ea4
+		summarizeBy: sum
+		sourceColumn: Breakeven_Months
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Total_Benefit_3Y_SGDm
+		dataType: double
+		lineageTag: c3ab8be8-ff4e-4f9f-babe-35677d07fad7
+		summarizeBy: sum
+		sourceColumn: Total_Benefit_3Y_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Total_Cost_3Y_SGDm
+		dataType: double
+		lineageTag: 105223d4-851b-461f-850c-ff78fcb1a3ee
+		summarizeBy: sum
+		sourceColumn: Total_Cost_3Y_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RM_Time_Saving_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: d96d12a2-f4a9-45e3-92ff-a0a369610ed7
+		summarizeBy: sum
+		sourceColumn: RM_Time_Saving_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Credit_Cycle_Reduction_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 6185367e-19a2-4a40-92e7-499d925d9c2d
+		summarizeBy: sum
+		sourceColumn: Credit_Cycle_Reduction_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scenario_Order
+		dataType: int64
+		formatString: 0
+		lineageTag: cc854de3-db2e-4812-95de-4cc8ef54b455
+		summarizeBy: sum
+		sourceColumn: Scenario_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Scenario_Summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Dim_Scenario_Summary_Sheet = Source{[Item="Dim_Scenario_Summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Scenario_Summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scenario", type text}, {"Assumptions", type text}, {"Discount_Rate_Pct", Int64.Type}, {"Net_NPV_SGDm", type number}, {"ROI_3Y_Pct", Int64.Type}, {"Breakeven_Months", type number}, {"Total_Benefit_3Y_SGDm", type number}, {"Total_Cost_3Y_SGDm", type number}, {"RM_Time_Saving_Pct", Int64.Type}, {"Credit_Cycle_Reduction_Pct", Int64.Type}, {"Scenario_Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

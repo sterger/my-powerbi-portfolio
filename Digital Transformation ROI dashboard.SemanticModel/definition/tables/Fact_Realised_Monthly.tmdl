@@ -1,0 +1,125 @@
+table Fact_Realised_Monthly
+	lineageTag: 217231c0-0360-4675-96db-eed845915355
+
+	column Month_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 7fc62ab5-d650-4acc-8e52-7ccde6f4ba88
+		summarizeBy: sum
+		sourceColumn: Month_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_Start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b7648fc0-570d-4157-9d88-a8142d603978
+		summarizeBy: none
+		sourceColumn: Month_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Actual_Net_Saving_SGDm
+		dataType: double
+		lineageTag: 2d3a4b71-ab87-46a9-abd1-e1798fe2292a
+		summarizeBy: sum
+		sourceColumn: Actual_Net_Saving_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Expected_Model_Net_Cash_Flow_SGDm
+		dataType: double
+		lineageTag: 2c88116a-cd61-4e19-b4de-5fd2cfd4fedb
+		summarizeBy: sum
+		sourceColumn: Expected_Model_Net_Cash_Flow_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Annualised_Run_Rate_SGDm
+		dataType: double
+		lineageTag: 5c920232-e07e-46d2-a4f4-b6b88b1e8abd
+		summarizeBy: sum
+		sourceColumn: Annualised_Run_Rate_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RM_Prep_Time_Min
+		dataType: int64
+		formatString: 0
+		lineageTag: e814eb6c-a534-4c5d-b751-fec1be960567
+		summarizeBy: sum
+		sourceColumn: RM_Prep_Time_Min
+
+		annotation SummarizationSetBy = Automatic
+
+	column Credit_Memo_Cycle_Days
+		dataType: double
+		lineageTag: f791eb84-62f1-4a3f-b9e6-f0402e471ca3
+		summarizeBy: sum
+		sourceColumn: Credit_Memo_Cycle_Days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Audit_Error_Rate_Pct
+		dataType: double
+		lineageTag: 7207f4ac-bdaa-456a-aee8-2c127df28542
+		summarizeBy: sum
+		sourceColumn: Audit_Error_Rate_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SME_Loan_Volume_Uplift_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 58ed2f41-cd6f-49ae-94da-401085c16035
+		summarizeBy: sum
+		sourceColumn: SME_Loan_Volume_Uplift_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIR_Improvement_bps
+		dataType: int64
+		formatString: 0
+		lineageTag: 58ba82b3-8fd0-4af3-b833-34c417979fee
+		summarizeBy: sum
+		sourceColumn: CIR_Improvement_bps
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meetings_per_RM_per_Week
+		dataType: double
+		lineageTag: 237d58b4-d875-4c95-bb7a-e3f4a264a067
+		summarizeBy: sum
+		sourceColumn: Meetings_per_RM_per_Week
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Realised_Monthly = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_Realised_Monthly_Sheet = Source{[Item="Fact_Realised_Monthly",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Realised_Monthly_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Month_No", Int64.Type}, {"Month_Start", type date}, {"Actual_Net_Saving_SGDm", type number}, {"Expected_Model_Net_Cash_Flow_SGDm", type number}, {"Annualised_Run_Rate_SGDm", type number}, {"RM_Prep_Time_Min", Int64.Type}, {"Credit_Memo_Cycle_Days", type number}, {"Audit_Error_Rate_Pct", type number}, {"SME_Loan_Volume_Uplift_Pct", Int64.Type}, {"CIR_Improvement_bps", Int64.Type}, {"Meetings_per_RM_per_Week", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,89 @@
+table Fact_CashFlow
+	lineageTag: 6359782c-c5ae-4c84-b88a-f16264cbade0
+
+	column Scenario
+		dataType: string
+		lineageTag: 17d03fc4-a935-48f3-995f-cdf90101c8f4
+		summarizeBy: none
+		sourceColumn: Scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d39ed3e-31a2-4b05-97e1-a51ab8cf0329
+		summarizeBy: sum
+		sourceColumn: Month_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_Start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a91a468a-9697-4c03-958f-150c023440b4
+		summarizeBy: none
+		sourceColumn: Month_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Category
+		dataType: string
+		lineageTag: 9b619e2d-22aa-4e11-88cd-cd1aff9c26d3
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Line_Item
+		dataType: string
+		lineageTag: 7cfde9c9-528c-4009-8e64-f95204266ecb
+		summarizeBy: none
+		sourceColumn: Line_Item
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount_SGDm
+		dataType: double
+		lineageTag: ab192733-033e-4b39-b2d6-54df277f7a74
+		summarizeBy: sum
+		sourceColumn: Amount_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 60ed24b5-9f3c-40a6-9a73-8e6e4fa80150
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year_Label
+		dataType: string
+		lineageTag: 895cb727-2320-4fb0-b991-6817e44b27ca
+		summarizeBy: none
+		sourceColumn: Year_Label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_CashFlow = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_CashFlow_Sheet = Source{[Item="Fact_CashFlow",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_CashFlow_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scenario", type text}, {"Month_No", Int64.Type}, {"Month_Start", type date}, {"Category", type text}, {"Line_Item", type text}, {"Amount_SGDm", type number}, {"Year", Int64.Type}, {"Year_Label", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

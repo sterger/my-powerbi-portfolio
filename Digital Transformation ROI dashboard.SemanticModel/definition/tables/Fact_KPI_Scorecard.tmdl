@@ -1,0 +1,44 @@
+table Fact_KPI_Scorecard
+	lineageTag: af851143-1df3-4ffd-be3b-36fdf2f38751
+
+	column KPI
+		dataType: string
+		lineageTag: 88433793-3796-4f79-b496-989fdf86b36c
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Actual
+		dataType: double
+		lineageTag: 4cf2a4c7-835d-4658-a806-6c902a57fc9d
+		summarizeBy: sum
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: 992bcfd2-505f-4c13-9143-a52f04c38df8
+		summarizeBy: none
+		sourceColumn: Year Month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_KPI_Scorecard = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_KPI_Scorecard_Sheet = Source{[Item="Fact_KPI_Scorecard",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_KPI_Scorecard_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Actual", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

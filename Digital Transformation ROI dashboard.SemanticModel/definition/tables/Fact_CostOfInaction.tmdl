@@ -1,0 +1,58 @@
+table Fact_CostOfInaction
+	lineageTag: 062d26ad-d098-489c-a7e6-14b7f8b8cf86
+
+	column Month_No
+		dataType: int64
+		formatString: 0
+		lineageTag: b4b494dc-a3ce-42dd-bdaf-2a08fbcfe5fc
+		summarizeBy: sum
+		sourceColumn: Month_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_Start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8620097c-b2e6-4288-8c88-2fb8e2ad25e8
+		summarizeBy: none
+		sourceColumn: Month_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Lost_Loan_Origination_Revenue_SGDm
+		dataType: double
+		lineageTag: fd87f79a-2d5a-4d21-a169-0ca056933d96
+		summarizeBy: sum
+		sourceColumn: Lost_Loan_Origination_Revenue_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Contractor_Overtime_SGDm
+		dataType: double
+		lineageTag: 7643b142-0f9c-437a-bb90-d9a634f015d5
+		summarizeBy: sum
+		sourceColumn: Contractor_Overtime_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_CostOfInaction = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_CostOfInaction_Sheet = Source{[Item="Fact_CostOfInaction",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_CostOfInaction_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Month_No", Int64.Type}, {"Month_Start", type date}, {"Lost_Loan_Origination_Revenue_SGDm", type number}, {"Contractor_Overtime_SGDm", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

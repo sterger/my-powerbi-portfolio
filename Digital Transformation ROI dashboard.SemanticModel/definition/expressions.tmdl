@@ -1,0 +1,7 @@
+expression ExcelSource = "C:\Users\Magnus\Desktop\my-powerbi-portfolio\data.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 0abcd33b-93b0-464b-bb38-c8daa4224f62
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

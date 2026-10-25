@@ -1,0 +1,29 @@
+relationship AutoDetected_f9b9fb8c-00b5-42f6-abd5-9d136dd011fa
+	fromColumn: Fact_CashFlow.Scenario
+	toColumn: Dim_Scenario_Summary.Scenario
+
+relationship AutoDetected_d4319dd3-aff9-41d6-aa5f-dde9fe564638
+	fromColumn: Fact_Sensitivity.Scenario
+	toColumn: Dim_Scenario_Summary.Scenario
+
+relationship 1d8cf827-536b-f3b1-5ee0-23d1987d8624
+	fromColumn: Fact_CashFlow.Month_Start
+	toColumn: Date.Date
+
+relationship 40b9dfff-ea7d-f36d-3a3d-800cbcbc2e0a
+	fromColumn: Fact_CostOfInaction.Month_Start
+	toColumn: Date.Date
+
+relationship a1cea548-0eaf-5cf6-09b6-4531adf16a16
+	fromColumn: Fact_Adoption_Weekly.Week_Start
+	toColumn: Date.Date
+
+relationship AutoDetected_16bb3dad-9e92-408c-be08-24ec81ce5082
+	fromColumn: Fact_KPI_Scorecard.KPI
+	toColumn: Dim_KPI_Scorecard.KPI
+
+relationship 961a5bda-f352-0329-66a0-410ce88f9b6b
+	toCardinality: many
+	fromColumn: Fact_KPI_Scorecard.'Year Month'
+	toColumn: Date.'Year Month'
+

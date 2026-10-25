@@ -1,0 +1,114 @@
+table Fact_Adoption_Weekly
+	lineageTag: 879265f7-1d92-463a-9cb4-0b039e60d60a
+
+	column Use_Case
+		dataType: string
+		lineageTag: 25db7e82-8777-4575-b2dc-9da6202c1181
+		summarizeBy: none
+		sourceColumn: Use_Case
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f001912-4ceb-439a-ade7-ea6eb3b55018
+		summarizeBy: sum
+		sourceColumn: Week_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6362638d-361c-428f-b46f-ca071176ef8b
+		summarizeBy: none
+		sourceColumn: Week_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Reach_WAU_Pct
+		dataType: double
+		lineageTag: 78ec7774-205e-4b10-8213-a3d95f938a69
+		summarizeBy: sum
+		sourceColumn: Reach_WAU_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Depth_Pct
+		dataType: double
+		lineageTag: 9cba4189-9725-443e-9775-3e04ef4dd281
+		summarizeBy: sum
+		sourceColumn: Depth_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Weekly_Active_Users
+		dataType: int64
+		formatString: 0
+		lineageTag: ce0f6ff6-b214-416a-8396-dcfc7bc7cd9b
+		summarizeBy: sum
+		sourceColumn: Weekly_Active_Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target_Population
+		dataType: int64
+		formatString: 0
+		lineageTag: 15d7b168-dcb6-4066-99c2-90de18824032
+		summarizeBy: sum
+		sourceColumn: Target_Population
+
+		annotation SummarizationSetBy = Automatic
+
+	column Avg_Sessions_per_User
+		dataType: double
+		lineageTag: c2d9bba8-664b-4a92-b53a-337e29a0b525
+		summarizeBy: sum
+		sourceColumn: Avg_Sessions_per_User
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Reach_Target
+		dataType: double
+		lineageTag: 1b084957-2153-46e7-af15-52bf8428d574
+		summarizeBy: sum
+		sourceColumn: Reach_Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Depth_Target
+		dataType: double
+		lineageTag: 515e521d-5456-4e8e-9186-1b6ed91102e6
+		summarizeBy: sum
+		sourceColumn: Depth_Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Adoption_Weekly = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_Adoption_Weekly_Sheet = Source{[Item="Fact_Adoption_Weekly",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Adoption_Weekly_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Use_Case", type text}, {"Week_No", Int64.Type}, {"Week_Start", type date}, {"Reach_WAU_Pct", type number}, {"Depth_Pct", type number}, {"Weekly_Active_Users", Int64.Type}, {"Target_Population", Int64.Type}, {"Avg_Sessions_per_User", type number}, {"Reach_Target", type number}, {"Depth_Target", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

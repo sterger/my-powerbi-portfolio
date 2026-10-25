@@ -1,0 +1,54 @@
+table Fact_Sensitivity
+	lineageTag: d67f07c3-c5c2-4baa-b02b-cb2ed305d1c8
+
+	column Scenario
+		dataType: string
+		lineageTag: 61f42fc1-8b17-41c9-89d6-905b0f412281
+		summarizeBy: none
+		sourceColumn: Scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column Token_Cost_Change_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 31dd7fc2-99fe-4d2c-9053-8f92c7567d0b
+		summarizeBy: sum
+		sourceColumn: Token_Cost_Change_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Benefit_Realisation_Pct
+		dataType: int64
+		formatString: 0
+		lineageTag: f48cd343-35ca-4fa0-9938-28b4660820e6
+		summarizeBy: sum
+		sourceColumn: Benefit_Realisation_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Net_NPV_SGDm
+		dataType: double
+		lineageTag: 2a805c57-9182-404c-b4b5-8bd3370f7f3d
+		summarizeBy: sum
+		sourceColumn: Net_NPV_SGDm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Sensitivity = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Fact_Sensitivity_Sheet = Source{[Item="Fact_Sensitivity",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Sensitivity_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scenario", type text}, {"Token_Cost_Change_Pct", Int64.Type}, {"Benefit_Realisation_Pct", Int64.Type}, {"Net_NPV_SGDm", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

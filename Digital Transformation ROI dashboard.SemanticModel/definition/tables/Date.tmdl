@@ -1,0 +1,135 @@
+table Date
+	lineageTag: 89dfb2aa-e25b-4b3b-bb02-7b75ce70efcd
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3fdfe767-4dfd-428c-9ffc-199c5e3b370a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 20459d05-2892-4d14-b435-fd9d3fb15a32
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: a1865d86-85e3-4354-b19a-c8f82367a9eb
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6369769f-e659-4eab-8f47-45d2eb14b978
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: c0dba127-b000-4c26-a540-9245b34c0367
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short Month'
+		dataType: string
+		lineageTag: 226bc937-67f5-4d5d-b0da-4cb630f9dbd2
+		summarizeBy: none
+		sourceColumn: Short Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: 3a50e7a3-9e24-414d-aa92-48c018fec2e1
+		summarizeBy: none
+		sourceColumn: Year Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 37c57633-1ba1-49ae-99c5-de0f7cce2a4e
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: ea616ed8-8dae-4037-a6d8-738fd57282b7
+		summarizeBy: sum
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Sort'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ae84174-1a86-4fb0-9bd2-520d4efa07ea
+		summarizeBy: sum
+		sourceColumn: Year Month Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekName = "Week" & [Week of Year]
+		lineageTag: 30b159fb-f4a0-4c61-a5f0-4fbb2e507eff
+		summarizeBy: none
+		sortByColumn: 'Week of Year'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source = ```
+				let
+				    // 1. Define the Start Date and dynamically calculate End Date (End of current year)
+				    StartDate = #date(2025, 1, 1), 
+				    EndDate = #date(2028, 12, 31),
+				    
+				    // 2. Generate a continuous list of numbers between Start and End dates
+				    DayCount = Duration.Days(EndDate - StartDate) + 1,
+				    DateList = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),
+				
+				    // 3. Convert the list into a structured table
+				    TableFromList = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}, null, ExtraValues.Error),
+				    ChangedType = Table.TransformColumnTypes(TableFromList, {{"Date", type date}}),
+				
+				    // 4. Add standard date dimension columns
+				    AddYear = Table.AddColumn(ChangedType, "Year", each Date.Year([Date]), Int64.Type),
+				    AddQuarter = Table.AddColumn(AddYear, "Quarter", each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				    AddMonthNum = Table.AddColumn(AddQuarter, "Month Number", each Date.Month([Date]), Int64.Type),
+				    AddMonthName = Table.AddColumn(AddMonthNum, "Month Name", each Date.MonthName([Date]), type text),
+				    AddShortMonth = Table.AddColumn(AddMonthName, "Short Month", each Text.Start([Month Name], 3), type text),
+				    AddYearMonth = Table.AddColumn(AddShortMonth, "Year Month", each Text.From([Year]) & "-" & Text.PadStart(Text.From([Month Number]), 2, "0"), type text),
+				    AddWeekNum = Table.AddColumn(AddYearMonth, "Week of Year", each Date.WeekOfYear([Date]), Int64.Type),
+				    AddDayOfWeek = Table.AddColumn(AddWeekNum, "Day of Week", each Date.DayOfWeek([Date]), Int64.Type),
+				    // Sort columns by chronological keys to fix visual sorting in Power BI
+				    AddMonthSort = Table.AddColumn(AddDayOfWeek, "Year Month Sort", each [Year] * 100 + [Month Number], Int64.Type)
+				in
+				    AddMonthSort
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

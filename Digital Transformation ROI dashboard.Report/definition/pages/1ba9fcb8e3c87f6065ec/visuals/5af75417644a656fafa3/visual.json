@@ -1,0 +1,219 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "5af75417644a656fafa3",
+  "position": {
+    "x": 1263,
+    "y": 584,
+    "z": 3000,
+    "height": 488,
+    "width": 631,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Summary",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Fund and build Wealth Advisory Prep Agent and Commercial Credit Analysis Agent. ",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Hold Trade Finance Fraud to Wave 2.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why fund",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Returns hold up:",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " In the Expected case, the S$6.7M investment returns S$26.1M of benefit, giving an NPV of S$16.8M, a 290% ROI and break-even in 7.5 months. Even the Conservative case pays back in 11 months with an NPV of S$10.4M.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Risk is low:",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " NPV stays positive across every sensitivity combination, even with token costs up 100% and only 70% of the benefit realised (Conservative S$3.6M, Expected S$8.5M). Token cost is a minor driver compared with how much of the benefit is actually realised.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Waiting costs more than acting:",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Inaction costs about S$6.8M a year in lost loan revenue and contractor overtime, roughly the whole programme cost.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Why this prioritisation",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The two Wave 1 agents are the only “Quick Wins” - high value, high feasibility.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Trade Finance Fraud Agent has high value but low feasibility, should wait until the platform is proven.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The HR Bot is easy to build but brings too little value. ",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Recommendation:",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "11pt"
+                    }
+                  },
+                  {
+                    "value": " Approve Wave 1 funding on the Expected case, with delivery tracked against the Conservative case as the floor.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

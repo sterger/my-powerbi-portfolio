@@ -1,0 +1,137 @@
+table Measure
+	lineageTag: 41df9aa2-d8d9-45b5-ac95-7de0f49a7cfe
+
+	measure 'Benefit SGDm' = CALCULATE(SUM(Fact_CashFlow[Amount_SGDm]), Fact_CashFlow[Category]="Benefit")
+		lineageTag: b8047cf3-e161-4e6a-b24b-6bfedfe91823
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cost SGDm' = ```
+			-CALCULATE(SUM(Fact_CashFlow[Amount_SGDm]), Fact_CashFlow[Category]="Cost")				
+			```
+		lineageTag: 2faacf18-7f23-41e5-ae3c-9ad5d24e3484
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Cash Flow' = [Benefit SGDm] - [Cost SGDm]
+		lineageTag: b49aab29-5b1a-425c-ad3f-4b2046185bca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cumulative Net' =
+			
+			CALCULATE([Net Cash Flow],
+			    FILTER(ALL('Date'), 'Date'[Year Month] <= MAX('Date'[Year Month])))
+		lineageTag: 706f8153-a63d-43be-bab0-46bc542c2c6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Discount Factor' = 1 / POWER(1 + SELECTEDVALUE(Dim_Scenario_Summary[Discount_Rate_Pct])/100, MAX(Fact_CashFlow[Month_No])/12)
+		lineageTag: c4a2b756-e663-4159-b588-72a386d14815
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NPV SGDm' = SUMX(VALUES(Fact_CashFlow[Month_No]), [Net Cash Flow] * [Discount Factor])
+		lineageTag: 04a5bc8a-5151-4d97-ace6-defb256d2c29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NPV (Model)' = SELECTEDVALUE(Dim_Scenario_Summary[Net_NPV_SGDm])
+		lineageTag: 473aa5dd-b2e2-424b-89f6-cc005d9791af
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ROI %' = ```
+			
+			
+			var benefit = CALCULATE( [Benefit SGDm],    
+			    FILTER(ALL('Date'), 'Date'[Year Month] <= MAX('Date'[Year Month])))
+			var cost = CALCULATE([Cost SGDm],    
+			    FILTER(ALL('Date'), 'Date'[Year Month] <= MAX('Date'[Year Month])))
+			
+			return 
+			DIVIDE(benefit - cost, cost)	
+			
+			
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e6fa0fc9-7186-44ca-893f-ee082db2b101
+
+	measure 'Breakeven Mo' = ```
+			SELECTEDVALUE(Dim_Scenario_Summary[Breakeven_Months])			
+			```
+		lineageTag: 0a803ab1-4a82-4369-afa1-942ff86e3707
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cum COI SGDm' = ```
+			CALCULATE(SUM(Fact_CostOfInaction[Lost_Loan_Origination_Revenue_SGDm]) + SUM(Fact_CostOfInaction[Contractor_Overtime_SGDm]),
+			                     FILTER(ALL('Date'), 'Date'[Year Month] <= MAX('Date'[Year Month])))		
+			
+			```
+		lineageTag: faae61b9-ec71-4937-a098-1e1679f5fefd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Run Rate (Latest)' = ```
+			CALCULATE(MAX(Fact_Realised_Monthly[Annualised_Run_Rate_SGDm]), Fact_Realised_Monthly[Month_No] = MAX(Fact_Realised_Monthly[Month_No]))				
+			```
+		lineageTag: 7e97fa37-50f8-4a58-b472-fd4f02f49e8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CIR bps (Latest)' = ```
+			CALCULATE(MAX(Fact_Realised_Monthly[CIR_Improvement_bps]), Fact_Realised_Monthly[Month_No] = MAX(Fact_Realised_Monthly[Month_No]))			
+			```
+		formatString: 0
+		lineageTag: 750f8e44-56f9-4b25-b1f7-82eca2d2c5d8
+
+	measure 'CIR % of Target' = ```
+			DIVIDE([CIR bps (Latest)], 140)	
+			```
+		lineageTag: 919bab00-f32a-44c5-8250-ae41b3287083
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'KPI Progress %' = ```
+			
+			
+			var Baseline = SELECTEDVALUE(Dim_KPI_Scorecard[Baseline])
+			Var Target = SELECTEDVALUE(Dim_KPI_Scorecard[Target])
+			Var actual = SUM(Fact_KPI_Scorecard[Actual])
+			
+			
+			 Var Results =    DIVIDE(actual - Baseline,
+			                       target - Baseline)		
+			
+			Var Capresults  = 
+			Max( 
+			    Min(Results,1),
+			    0)
+			
+			var LatestDataPeriod = Calculate(Max(Fact_KPI_Scorecard[Year Month]),ALL('Date'[Year Month]))
+			
+			
+			return 
+			if(SELECTEDVALUE('Date'[Year Month]) <= LatestDataPeriod, Capresults)
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 86d04be6-24b4-4cc6-8385-0dc4ffec78b1
+
+	measure 'Reach Status' = IF(AVERAGE(Fact_Adoption_Weekly[Reach_WAU_Pct]) >= 0.85, "On target", "Below target")
+		lineageTag: fdbe713a-697e-424d-b821-ba81ae6bbbde
+
+	partition Measure = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

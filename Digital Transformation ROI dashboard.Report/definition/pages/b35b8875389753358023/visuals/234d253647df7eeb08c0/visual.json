@@ -1,0 +1,125 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "234d253647df7eeb08c0",
+  "position": {
+    "x": 444.99996948242188,
+    "y": 100,
+    "z": 4000,
+    "height": 116,
+    "width": 275,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "ROI %"
+                }
+              },
+              "queryRef": "Measure.ROI %",
+              "nativeQueryRef": "ROI %",
+              "format": "0.0%;-0.0%;0.0%"
+            }
+          ]
+        },
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "\n Var Result = FORMAT([ROI %],\"0%\")\n RETURN\n FlipCard(Result,,\"ROI\", \"Return on Investment\")",
+                  "Name": "Calculation"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Calculation",
+              "format": "0.0%;-0.0%;0.0%"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "NativeVisualCalculation": {
+                "Language": "dax",
+                "Expression": "FlipCard([NPV (Model)],,\"NPV\", \"Net present value after applying a 8% discount rate\")",
+                "Name": "Calculation"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "compatibility": [
+        {
+          "properties": {
+            "legacyRendering": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

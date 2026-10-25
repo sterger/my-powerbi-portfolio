@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "e373e2dc128ffd7fc12e",
+  "position": {
+    "x": 1625,
+    "y": 100,
+    "z": 7000,
+    "height": 116,
+    "width": 275,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Run Rate (Latest)"
+                }
+              },
+              "queryRef": "Measure.Run Rate (Latest)",
+              "nativeQueryRef": "Run Rate (Latest)"
+            }
+          ]
+        },
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "\nvar Results = \"To Scale\"\nreturn\n FlipCard(Results,,\"Decision\", \"To scale AI investment accordingly\")",
+                  "Name": "Calculation"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Calculation",
+              "format": "0.0%;-0.0%;0.0%"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "NativeVisualCalculation": {
+                "Language": "dax",
+                "Expression": "\n\n FlipCard([Breakeven Mo],,\"Breakeven Months\", \"No of Months to breakeven on investment\")",
+                "Name": "Calculation"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "compatibility": [
+        {
+          "properties": {
+            "legacyRendering": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

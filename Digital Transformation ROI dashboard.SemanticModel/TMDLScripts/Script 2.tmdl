@@ -1,0 +1,42 @@
+createOrReplace 
+  function FlipCard =
+       ( 
+       measure1 : SCALAR, 
+       pct : SCALAR STRING = blank(), 
+       label : SCALAR STRING = blank(), 
+       subtext : SCALAR STRING = blank(), 
+       accent : SCALAR STRING = "#1F1F1F", 
+       accentShadow : SCALAR STRING = "#1F1F1F", 
+          width : SCALAR STRING = "100vw", 
+       height : SCALAR STRING = "100vh" 
+       ) => 
+
+			"<!DOCTYPE html><html><head><meta charset=""UTF-8""><style>" & 
+			"html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;font-family:'Segoe UI',Arial,sans-serif;}" & 
+			".card-scene{width:" & width & ";height:" & height & ";perspective:1000px;font-size:clamp(10px,15vmin,30px);}" & 
+			".card{position:relative;width:" & width & ";height:" & height & ";transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.4,0.2,0.2,1);}" & 
+			".card-scene:hover .card{transform:rotateY(180deg);}" & 
+			".card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:0.6em;background:#1F1F1F;box-shadow:0 0.1em 0.3em rgba(0,0,0,0.12),0.8em 0.8em 1.6em -0.8em " & accentShadow & ";display:flex;overflow:hidden;}" & 
+			".card-face::before{content:'';width:0.4em;flex:0 0 0.4em;background:#FFFFFF;}" & 
+			".card-face-inner{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0.4em 1em;}" & 
+			".card-value-row{display:flex;align-items:baseline;justify-content:space-between;gap:0.6em;}" & 
+			".card-front .card-value{font-size:2em;font-weight:700;color:#FFFFFF;line-height:1.1;}" & 
+			".card-front .card-pct{font-size:1.8em;font-weight:700;color:" & accent & ";line-height:1.1;}" & 
+			".card-front .card-label{margin-top:0.2em;font-size:0.9em;font-weight:900;letter-spacing:0.03em;color:#FFFFFF;text-transform:uppercase;}" & 
+			".card-back{transform:rotateY(180deg);}" & 
+			".card-back .card-face-inner{justify-content:center;align-items:flex-start;}" & 
+			".card-back .card-text{font-size:1em;font-weight:500;color:#FFFFFF;line-height:1.3;}" & 
+			"</style></head><body>" & 
+			"<div class='card-scene'><div class='card'>" & 
+			"<div class='card-face card-front'><div class='card-face-inner'>" & 
+			"<div class='card-value-row'>" & 
+			"<div class='card-value'>" & measure1 & "</div>" & 
+			"<div class='card-pct'>" & pct & "</div>" & 
+			"</div>" & 
+			"<div class='card-label'>" & label & "</div>" & 
+			"</div></div>" & 
+			"<div class='card-face card-back'><div class='card-face-inner'>" & 
+			"<div class='card-text'>" & subtext & "</div>" & 
+			"</div></div>" & 
+			"</div></div>" & 
+			"</body></html>" 

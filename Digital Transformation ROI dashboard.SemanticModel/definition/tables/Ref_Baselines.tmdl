@@ -1,0 +1,44 @@
+table Ref_Baselines
+	lineageTag: 3ee3fbb4-57b7-4c90-9ce6-c337a6f11846
+
+	column Baseline_Item
+		dataType: string
+		lineageTag: 6ae65cc3-bdd1-428c-8afb-c2d16841d615
+		summarizeBy: none
+		sourceColumn: Baseline_Item
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 2ac56ba6-e425-4ce4-976b-3cd90c52feb7
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Unit
+		dataType: string
+		lineageTag: 8069ea16-2880-4606-a632-71252942381f
+		summarizeBy: none
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Ref_Baselines = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(ExcelSource), null, true),
+				    Ref_Baselines_Sheet = Source{[Item="Ref_Baselines",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Ref_Baselines_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Baseline_Item", type text}, {"Value", type number}, {"Unit", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
