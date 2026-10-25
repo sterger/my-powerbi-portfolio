@@ -132,7 +132,7 @@ Prior to writing a single line of code, empirical baselines were established ove
 
 ## Measured Realized Outcomes (Post-Deployment Audit)
 
-Following an initial 6-month deployment monitored live via custom **Power BI Pulse Dashboards** and **Viva Insights**, the empirical results demonstrated verified P&L realization:
+Following an initial 6-month deployment monitored, the empirical results demonstrated verified P&L realization:
 
 * **RM Prep Time:** Dropped from **90 minutes to 14 minutes** per meeting (84% reduction).
 * **Credit Memo Cycle Time:** Decreased from **5.2 days to 1.1 days**, enabling a 22% increase in SME loan volume without increasing analyst headcount.
